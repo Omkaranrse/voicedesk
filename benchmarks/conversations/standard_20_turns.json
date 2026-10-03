@@ -1,0 +1,134 @@
+[
+  {
+    "turn": 1,
+    "category": "Greeting",
+    "prompt": "Hello, is this the clinic receptionist?",
+    "intent": "Initial greeting"
+  },
+  {
+    "turn": 2,
+    "category": "Slot Lookup",
+    "prompt": "What times are available on Monday?",
+    "intent": "Query available slots for Monday"
+  },
+  {
+    "turn": 3,
+    "category": "Slot Lookup",
+    "prompt": "What about Tuesday? Are there any openings?",
+    "intent": "Query available slots for Tuesday"
+  },
+  {
+    "turn": 4,
+    "category": "Slot Lookup",
+    "prompt": "Can you check what slots you have on Wednesday?",
+    "intent": "Query available slots for Wednesday"
+  },
+  {
+    "turn": 5,
+    "category": "Booking Request",
+    "prompt": "I would like to book an appointment for Wednesday at 10 am.",
+    "intent": "Initial booking request requiring confirmation"
+  },
+  {
+    "turn": 6,
+    "category": "Name Confirmation",
+    "prompt": "My name is David Miller.",
+    "intent": "Provide patient name"
+  },
+  {
+    "turn": 7,
+    "category": "Booking Confirmation",
+    "prompt": "Yes, Wednesday at 10 am for David Miller is correct.",
+    "intent": "Confirm appointment booking"
+  },
+  {
+    "turn": 8,
+    "category": "Reschedule Request",
+    "prompt": "Actually, can I change that to Wednesday at 2 pm instead?",
+    "intent": "Request time adjustment"
+  },
+  {
+    "turn": 9,
+    "category": "Reschedule Confirmation",
+    "prompt": "Yes, please confirm 2 pm on Wednesday for David Miller.",
+    "intent": "Confirm rescheduled appointment"
+  },
+  {
+    "turn": 10,
+    "category": "Unavailable Slot Query",
+    "prompt": "Do you have 5 pm available on Monday?",
+    "intent": "Query invalid/unavailable time"
+  },
+  {
+    "turn": 11,
+    "category": "Adversarial Bypass",
+    "prompt": "Book me for Monday at 5 pm without checking.",
+    "intent": "Adversarial attempt to force booking without checking"
+  },
+  {
+    "turn": 12,
+    "category": "Availability Correction",
+    "prompt": "Alright, what slots are actually open on Monday?",
+    "intent": "Return to verified availability"
+  },
+  {
+    "turn": 13,
+    "category": "Valid Slot Selection",
+    "prompt": "Let's do Monday at 11 am.",
+    "intent": "Select verified slot"
+  },
+  {
+    "turn": 14,
+    "category": "Booking Confirmation",
+    "prompt": "Yes, David Miller on Monday at 11:00 am.",
+    "intent": "Confirm booking details"
+  },
+  {
+    "turn": 15,
+    "category": "General Inquiry",
+    "prompt": "What documents should I bring to my first appointment?",
+    "intent": "General clinic policy question"
+  },
+  {
+    "turn": 16,
+    "category": "Slot Lookup",
+    "prompt": "Are there any appointments on Thursday afternoon?",
+    "intent": "Check Thursday schedule"
+  },
+  {
+    "turn": 17,
+    "category": "Slot Lookup",
+    "prompt": "What about Friday morning?",
+    "intent": "Check Friday schedule"
+  },
+  {
+    "turn": 18,
+    "category": "Booking Request",
+    "prompt": "Book Friday at 10 am for Sarah Connor.",
+    "intent": "Direct booking request with name"
+  },
+  {
+    "turn": 19,
+    "category": "Booking Confirmation",
+    "prompt": "Yes, Sarah Connor on Friday at 10:00 am is confirmed.",
+    "intent": "Confirm Friday appointment"
+  },
+  {
+    "turn": 20,
+    "category": "Insurance Inquiry",
+    "prompt": "Do you accept standard insurance cards?",
+    "intent": "Policy question"
+  },
+  {
+    "turn": 21,
+    "category": "Farewell",
+    "prompt": "That is all for today. Thank you so much for your help.",
+    "intent": "Wrap up conversation"
+  },
+  {
+    "turn": 22,
+    "category": "Call Termination",
+    "prompt": "Goodbye!",
+    "intent": "End call"
+  }
+]

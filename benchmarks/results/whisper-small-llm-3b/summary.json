@@ -1,0 +1,9 @@
+{
+  "config_name": "whisper-small-llm-3b",
+  "status": "VALIDATED (DRY RUN)",
+  "stt_model": "Systran/faster-whisper-small",
+  "llm_model": "llama3.2:3b",
+  "turns_planned": 22,
+  "timestamp": "2026-09-29T12:58:54.186193",
+  "metrics": {}
+}

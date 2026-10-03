@@ -1,0 +1,9 @@
+{
+  "config_name": "whisper-base-llm-7b",
+  "status": "NOT INSTALLED",
+  "stt_model": "Systran/faster-whisper-base",
+  "llm_model": "qwen2.5:7b",
+  "turns_planned": 22,
+  "timestamp": "2026-09-29T12:59:09.698586",
+  "metrics": {}
+}

@@ -1,0 +1,108 @@
+{
+  "timestamp_start": "2026-09-29T12:58:50.045892",
+  "docker_stats_before": [
+    {
+      "BlockIO": "0B / 59.6MB",
+      "CPUPerc": "5.61%",
+      "Container": "bf2a924c1b24286e482ea9e94b0f9b5dc841cddbc5de37b0c2238ac92602012c",
+      "ID": "bf2a924c1b24",
+      "MemPerc": "8.23%",
+      "MemUsage": "644.9MiB / 7.653GiB",
+      "Name": "voicedesk-agent-1",
+      "NetIO": "10.7MB / 116kB",
+      "PIDs": "36"
+    },
+    {
+      "BlockIO": "0B / 0B",
+      "CPUPerc": "0.31%",
+      "Container": "1a54a0ce4e2d683faf6e6f7ea31864b96df3bc08c975f51eb8674137431b79c7",
+      "ID": "1a54a0ce4e2d",
+      "MemPerc": "1.01%",
+      "MemUsage": "78.99MiB / 7.653GiB",
+      "Name": "voicedesk-livekit-1",
+      "NetIO": "8.91MB / 8.99MB",
+      "PIDs": "15"
+    },
+    {
+      "BlockIO": "13.3MB / 6.54MB",
+      "CPUPerc": "0.47%",
+      "Container": "9e1d66a8164521285992fe525abbf5c1586568fbfaa53cb63fba306b462d2d62",
+      "ID": "9e1d66a81645",
+      "MemPerc": "17.30%",
+      "MemUsage": "1.324GiB / 7.653GiB",
+      "Name": "voicedesk-kokoro-1",
+      "NetIO": "290kB / 16.1MB",
+      "PIDs": "31"
+    },
+    {
+      "BlockIO": "24.1MB / 972MB",
+      "CPUPerc": "1.04%",
+      "Container": "bf34f1d0e822940c68fc68dfe18f402d453fdc72a3be32bf4fae87e73fd8d3b7",
+      "ID": "bf34f1d0e822",
+      "MemPerc": "16.28%",
+      "MemUsage": "1.246GiB / 7.653GiB",
+      "Name": "voicedesk-speaches-1",
+      "NetIO": "499MB / 3.86MB",
+      "PIDs": "25"
+    }
+  ],
+  "ollama_host_stats_before": {
+    "pid": 50228,
+    "cpu_percent": 0.0,
+    "mem_percent": 0.1,
+    "rss_kb": 20688
+  },
+  "timestamp_end": "2026-09-29T12:58:52.149678",
+  "docker_stats_after": [
+    {
+      "BlockIO": "0B / 59.6MB",
+      "CPUPerc": "5.72%",
+      "Container": "bf2a924c1b24286e482ea9e94b0f9b5dc841cddbc5de37b0c2238ac92602012c",
+      "ID": "bf2a924c1b24",
+      "MemPerc": "8.23%",
+      "MemUsage": "644.9MiB / 7.653GiB",
+      "Name": "voicedesk-agent-1",
+      "NetIO": "10.7MB / 116kB",
+      "PIDs": "36"
+    },
+    {
+      "BlockIO": "0B / 0B",
+      "CPUPerc": "0.07%",
+      "Container": "1a54a0ce4e2d683faf6e6f7ea31864b96df3bc08c975f51eb8674137431b79c7",
+      "ID": "1a54a0ce4e2d",
+      "MemPerc": "1.00%",
+      "MemUsage": "78.74MiB / 7.653GiB",
+      "Name": "voicedesk-livekit-1",
+      "NetIO": "8.91MB / 8.99MB",
+      "PIDs": "15"
+    },
+    {
+      "BlockIO": "13.3MB / 6.54MB",
+      "CPUPerc": "1.20%",
+      "Container": "9e1d66a8164521285992fe525abbf5c1586568fbfaa53cb63fba306b462d2d62",
+      "ID": "9e1d66a81645",
+      "MemPerc": "17.30%",
+      "MemUsage": "1.324GiB / 7.653GiB",
+      "Name": "voicedesk-kokoro-1",
+      "NetIO": "290kB / 16.1MB",
+      "PIDs": "31"
+    },
+    {
+      "BlockIO": "24.1MB / 972MB",
+      "CPUPerc": "2.94%",
+      "Container": "bf34f1d0e822940c68fc68dfe18f402d453fdc72a3be32bf4fae87e73fd8d3b7",
+      "ID": "bf34f1d0e822",
+      "MemPerc": "16.28%",
+      "MemUsage": "1.246GiB / 7.653GiB",
+      "Name": "voicedesk-speaches-1",
+      "NetIO": "499MB / 3.86MB",
+      "PIDs": "25"
+    }
+  ],
+  "ollama_host_stats_after": {
+    "pid": 50228,
+    "cpu_percent": 0.0,
+    "mem_percent": 0.1,
+    "rss_kb": 20688
+  }
+}

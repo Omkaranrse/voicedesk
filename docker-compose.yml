@@ -1,0 +1,128 @@
+services:
+  redis:
+    image: redis:7-alpine
+    command: >
+      sh -c '
+        if [ -n "$$REDIS_PASSWORD" ]; then
+          exec redis-server --requirepass "$$REDIS_PASSWORD"
+        else
+          exec redis-server
+        fi
+      '
+    environment:
+      REDIS_PASSWORD: "${REDIS_PASSWORD:-}"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli $${REDIS_PASSWORD:+-a \"$$REDIS_PASSWORD\"} ping | grep PONG || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 2s
+    restart: unless-stopped
+
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --config /etc/livekit.yaml
+    environment:
+      LIVEKIT_KEYS: "${LIVEKIT_API_KEY}: ${LIVEKIT_API_SECRET}"
+      LIVEKIT_REDIS_PASSWORD: "${REDIS_PASSWORD:-}"
+    volumes:
+      - "./infra/livekit/livekit.yaml:/etc/livekit.yaml:ro"
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "50000-50200:50000-50200/udp"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7880/ || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 3s
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  sip:
+    image: livekit/sip:latest
+    profiles:
+      - sip
+    environment:
+      LIVEKIT_API_KEY: "${LIVEKIT_API_KEY}"
+      LIVEKIT_API_SECRET: "${LIVEKIT_API_SECRET}"
+      LIVEKIT_WS_URL: "ws://livekit:7880"
+      SIP_CONFIG_FILE: /sip/config.yaml
+      REDIS_PASSWORD: "${REDIS_PASSWORD:-}"
+    volumes:
+      - "./infra/sip/config.yaml:/sip/config.yaml:ro"
+    ports:
+      - "5060:5060/udp"
+      - "5060:5060/tcp"
+      - "20000-20200:20000-20200/udp"
+    depends_on:
+      livekit:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  kokoro:
+    image: ghcr.io/remsky/kokoro-fastapi-cpu:latest
+    ports:
+      - "8880:8880"
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c 'import urllib.request; urllib.request.urlopen(\"http://localhost:8880/health\")' || python3 -c 'import urllib.request; urllib.request.urlopen(\"http://localhost:8880/v1/models\")' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+  speaches:
+    image: ghcr.io/speaches-ai/speaches:latest-cpu
+    ports:
+      - "8000:8000"
+    environment:
+      WHISPER__COMPUTE_TYPE: int8
+      WHISPER__TTL: 86400
+      WHISPER__USE_BATCHED_MODE: "false"
+    volumes:
+      - "hf-cache:/home/ubuntu/.cache/huggingface/hub"
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c 'import urllib.request; urllib.request.urlopen(\"http://localhost:8000/v1/models\")' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  agent:
+    build: ./agent
+    env_file: .env
+    environment:
+      LIVEKIT_URL: ws://livekit:7880
+      LIVEKIT_AGENT_NAME: voicedesk
+      STT_BASE_URL: http://speaches:8000/v1
+      TTS_BASE_URL: http://kokoro:8880/v1
+      LLM_BASE_URL: http://host.docker.internal:11434/v1
+      FALLBACK_LLM_BASE_URL: "${FALLBACK_LLM_BASE_URL:-}"
+      FALLBACK_LLM_MODEL: "${FALLBACK_LLM_MODEL:-}"
+      FALLBACK_LLM_API_KEY: "${FALLBACK_LLM_API_KEY:-}"
+      MAX_CALL_DURATION_SECONDS: "${MAX_CALL_DURATION_SECONDS:-300}"
+      LOG_TRANSCRIPTS: "${LOG_TRANSCRIPTS:-false}"
+      DB_PATH: /data/voicedesk.db
+      METRICS_CSV: /data/metrics.csv
+    volumes:
+      - "./benchmarks/results:/data"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      livekit:
+        condition: service_healthy
+      kokoro:
+        condition: service_healthy
+      speaches:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  hf-cache:

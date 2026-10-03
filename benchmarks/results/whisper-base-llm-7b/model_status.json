@@ -1,0 +1,7 @@
+{
+  "stt_model": "Systran/faster-whisper-base",
+  "stt_available": false,
+  "llm_model": "qwen2.5:7b",
+  "llm_available": false,
+  "ready": false
+}

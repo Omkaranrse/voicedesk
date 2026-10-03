@@ -1,0 +1,22 @@
+# LiveKit SIP Configuration (v1.17.0+)
+# Secrets are externalized and loaded via LIVEKIT_API_KEY, LIVEKIT_API_SECRET, and REDIS_PASSWORD.
+
+# LiveKit Server connection
+ws_url: ws://livekit:7880
+
+# Redis connection for state synchronization and coordination with LiveKit server
+redis:
+  address: redis:6379
+
+# SIP Signaling Port (UDP and TCP)
+sip_port: 5060
+
+# RTP Media Port Range for audio transport
+rtp_port: 20000-20200
+
+# Networking: false uses local LAN interface IP for local Wi-Fi / private subnet testing
+use_external_ip: false
+
+# Logging verbosity
+logging:
+  level: info

@@ -1,0 +1,35 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# SQLite Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Python caches and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+pytest-of-*/
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Node / Frontend
+node_modules/
+
+# LiveKit local session artifacts
+*.ses
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Benchmark runtime results
+benchmarks/results/*.csv

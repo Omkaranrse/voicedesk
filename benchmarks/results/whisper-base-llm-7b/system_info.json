@@ -1,0 +1,33 @@
+{
+  "os": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "system": "Darwin",
+  "release": "27.0.0",
+  "architecture": "arm64",
+  "cpu": "Apple M1 Pro",
+  "ram": "16.0 GB",
+  "python_version": "3.14.5",
+  "docker_version": "Docker version 29.7.2, build a7dcaa6",
+  "ollama_models": [
+    {
+      "name": "llama3.2:3b",
+      "parameter_size": "3.2B",
+      "quantization": "Q4_K_M",
+      "size_gb": 1.88
+    },
+    {
+      "name": "llama3:latest",
+      "parameter_size": "8.0B",
+      "quantization": "Q4_0",
+      "size_gb": 4.34
+    },
+    {
+      "name": "gemma3:1b",
+      "parameter_size": "999.89M",
+      "quantization": "Q4_K_M",
+      "size_gb": 0.76
+    }
+  ],
+  "speaches_models": [
+    "Systran/faster-whisper-small"
+  ]
+}

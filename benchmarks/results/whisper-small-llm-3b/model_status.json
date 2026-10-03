@@ -1,0 +1,7 @@
+{
+  "stt_model": "Systran/faster-whisper-small",
+  "stt_available": true,
+  "llm_model": "llama3.2:3b",
+  "llm_available": true,
+  "ready": true
+}
