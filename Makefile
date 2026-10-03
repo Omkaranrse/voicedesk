@@ -21,3 +21,6 @@ test:
 bench:
 	python3 scripts/summarize.py
 
+slots:
+	@uv run --directory agent python -m voicedesk.db
+

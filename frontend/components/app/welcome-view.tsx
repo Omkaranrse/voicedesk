@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import { Activity, Calendar, Clock, Radio, ShieldCheck, Sparkles, Waves } from 'lucide-react';
 import { FluidGlassButton } from '@/components/ui/fluid-glass-button';
@@ -83,16 +84,26 @@ export const WelcomeView = ({
           </span>
         </div>
 
-        {/* Center / Right Latency & Protocol Telemetry */}
-        <div className="hidden items-center gap-3 sm:flex">
-          <div className="flex items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-950/30 px-3 py-1 font-mono text-[10px] font-medium tracking-wider text-cyan-300 backdrop-blur-md">
-            <Activity className="size-3 text-cyan-400" />
-            <span>P95 TTFB &lt; 400MS</span>
-          </div>
+        {/* Center / Right Latency, Telemetry & Dashboard Navigation */}
+        <div className="flex items-center gap-3">
+          <Link
+            href="/appointments"
+            className="flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-950/40 px-3.5 py-1.5 font-mono text-[11px] font-semibold text-cyan-300 shadow-md shadow-cyan-950/30 backdrop-blur-md transition-all hover:border-cyan-400 hover:bg-cyan-900/60 hover:text-white"
+          >
+            <Calendar className="size-3.5 text-cyan-400" />
+            <span>Appointments</span>
+          </Link>
 
-          <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-slate-900/50 px-3 py-1 font-mono text-[10px] text-slate-400 backdrop-blur-md">
-            <Radio className="size-3 text-violet-400" />
-            <span>24KHZ DIRECT PCM</span>
+          <div className="hidden items-center gap-3 sm:flex">
+            <div className="flex items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-950/30 px-3 py-1 font-mono text-[10px] font-medium tracking-wider text-cyan-300 backdrop-blur-md">
+              <Activity className="size-3 text-cyan-400" />
+              <span>P95 TTFB &lt; 400MS</span>
+            </div>
+
+            <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-slate-900/50 px-3 py-1 font-mono text-[10px] text-slate-400 backdrop-blur-md">
+              <Radio className="size-3 text-violet-400" />
+              <span>24KHZ DIRECT PCM</span>
+            </div>
           </div>
         </div>
       </header>

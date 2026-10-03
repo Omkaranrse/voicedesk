@@ -228,3 +228,43 @@ def reschedule(
         return _retry_on_lock(_op)
     except sqlite3.IntegrityError:
         return False
+
+
+def get_all_slots() -> list[dict[str, Any]]:
+    """Retrieve all slots and their booking status."""
+    def _op():
+        with _conn() as c:
+            rows = c.execute(
+                "SELECT day, time, booked_by, pin FROM slots ORDER BY CASE day "
+                "WHEN 'monday' THEN 1 WHEN 'tuesday' THEN 2 WHEN 'wednesday' THEN 3 "
+                "WHEN 'thursday' THEN 4 WHEN 'friday' THEN 5 ELSE 6 END, time"
+            ).fetchall()
+            return [
+                {
+                    "day": r[0].capitalize(),
+                    "time": r[1],
+                    "booked_by": r[2],
+                    "pin": r[3],
+                    "status": "Booked" if r[2] else "Available",
+                }
+                for r in rows
+            ]
+
+    return _retry_on_lock(_op)
+
+
+if __name__ == "__main__":
+    init_db()
+    slots = get_all_slots()
+    print("\n" + "=" * 65)
+    print("         VOICEDESK CLINICAL APPOINTMENT SCHEDULE (LIVE)")
+    print("=" * 65)
+    print(f"{'DAY':<12} | {'TIME':<8} | {'STATUS':<11} | {'PATIENT':<16} | {'PIN'}")
+    print("-" * 65)
+    for s in slots:
+        status_str = f"✅ {s['status']}" if s['status'] == "Available" else f"📅 {s['status']}"
+        patient_str = s['booked_by'] or "-"
+        pin_str = s['pin'] or "-"
+        print(f"{s['day']:<12} | {s['time']:<8} | {status_str:<11} | {patient_str:<16} | {pin_str}")
+    print("=" * 65 + "\n")
+
