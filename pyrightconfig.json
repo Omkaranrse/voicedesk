@@ -1,0 +1,13 @@
+{
+  "include": [
+    "agent/src",
+    "benchmarks",
+    "scripts"
+  ],
+  "extraPaths": [
+    "agent/src",
+    "scripts"
+  ],
+  "venvPath": "agent",
+  "venv": ".venv"
+}

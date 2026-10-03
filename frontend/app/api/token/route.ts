@@ -1,5 +1,5 @@
-import { randomUUID } from 'crypto';
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import {
   AccessToken,
   type AccessTokenOptions,

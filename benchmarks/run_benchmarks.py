@@ -46,11 +46,14 @@ def benchmark_direct_kokoro():
                         if first_byte_time is None:
                             first_byte_time = time.perf_counter() - t0
                     total_time = time.perf_counter() - t0
-                    durations.append(first_byte_time or total_time)
-                    print(
-                        f"  Req {i} ({len(sent)} chars): TTFB={first_byte_time:.3f}s, Total={total_time:.3f}s"
-                    )
-                except httpx.HTTPError as err:
+                    if first_byte_time is not None:
+                        durations.append(first_byte_time)
+                        print(
+                            f"  Req {i} ({len(sent)} chars): TTFB={first_byte_time:.3f}s, Total={total_time:.3f}s"
+                        )
+                    else:
+                        print(f"  Req {i} ({len(sent)} chars): completed in {total_time:.3f}s (no stream chunks)")
+                except Exception as err:
                     print(f"  Req {i} failed: {err}")
 
         if durations:
@@ -60,7 +63,7 @@ def benchmark_direct_kokoro():
             )
         else:
             print("Direct Kokoro: No successful responses (service may be offline or restricted).\n")
-    except httpx.HTTPError as exc:
+    except Exception as exc:
         print(f"Direct Kokoro connection failed: {exc}\n")
 
     return durations
@@ -83,12 +86,15 @@ async def benchmark_isolated_livekit_tts():
                         first_frame_time = time.perf_counter() - t0
                     total_audio += audio.frame.duration
                 total_time = time.perf_counter() - t0
-                durations.append(first_frame_time or total_time)
-                print(
-                    f"  Req {i} ({len(sent)} chars): TTFB={first_frame_time:.3f}s, "
-                    f"Total={total_time:.3f}s, Audio={total_audio:.3f}s"
-                )
-            except (httpx.HTTPError, OSError) as err:
+                if first_frame_time is not None:
+                    durations.append(first_frame_time)
+                    print(
+                        f"  Req {i} ({len(sent)} chars): TTFB={first_frame_time:.3f}s, "
+                        f"Total={total_time:.3f}s, Audio={total_audio:.3f}s"
+                    )
+                else:
+                    print(f"  Req {i} ({len(sent)} chars): completed in {total_time:.3f}s (no audio frames)")
+            except Exception as err:
                 print(f"  Req {i} failed: {err}")
 
         if durations:
@@ -133,7 +139,7 @@ async def _run_single_concurrent_request(client: httpx.AsyncClient, text: str) -
             "total": total,
             "bytes": bytes_count,
         }
-    except (httpx.HTTPError, OSError) as exc:
+    except Exception as exc:
         return {
             "success": False,
             "error": str(exc),
@@ -142,8 +148,11 @@ async def _run_single_concurrent_request(client: httpx.AsyncClient, text: str) -
         }
 
 
-async def benchmark_concurrent_load(concurrency_levels: list[int] = (1, 5, 10)):
+async def benchmark_concurrent_load(concurrency_levels: list[int] | None = None):
     print("--- 3. Multi-Session Concurrent Load Benchmark ---")
+    if concurrency_levels is None:
+        concurrency_levels = [1, 5, 10]
+
     try:
         async with httpx.AsyncClient(base_url="http://localhost:8880/v1") as client:
             for concurrency in concurrency_levels:
@@ -178,14 +187,18 @@ async def benchmark_concurrent_load(concurrency_levels: list[int] = (1, 5, 10)):
                         f"  Concurrency {concurrency:2d}: 0/{concurrency} successful. "
                         f"Errors: {failures[0]['error'] if failures else 'unknown'}"
                     )
-    except (httpx.HTTPError, OSError) as exc:
+    except Exception as exc:
         print(f"Concurrent load benchmark connection failed: {exc}")
 
 
-def main():
+async def async_main():
     benchmark_direct_kokoro()
-    asyncio.run(benchmark_isolated_livekit_tts())
-    asyncio.run(benchmark_concurrent_load([1, 5, 10]))
+    await benchmark_isolated_livekit_tts()
+    await benchmark_concurrent_load([1, 5, 10])
+
+
+def main():
+    asyncio.run(async_main())
 
 
 if __name__ == "__main__":
